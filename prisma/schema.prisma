@@ -1,0 +1,37 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  username     String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+
+  sentMessages     Message[] @relation("MessageSender")
+  receivedMessages Message[] @relation("MessageRecipient")
+}
+
+model Message {
+  id          Int      @id @default(autoincrement())
+  text        String
+  type        String   @default("global")
+  createdAt   DateTime @default(now())
+
+  senderId    Int
+  recipientId Int?
+
+  sender User @relation("MessageSender", fields: [senderId], references: [id],onDelete: Cascade)
+
+  recipient User? @relation("MessageRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@index([type, id])
+  @@index([senderId, recipientId, id])
+  @@index([recipientId, senderId, id])
+}

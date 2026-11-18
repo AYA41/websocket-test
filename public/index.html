@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Chat</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <main class="container">
+      <section id="authView" class="panel">
+        <h1>Web Chat</h1>
+        <p>Войди в аккаунт или зарегистрируйся</p>
+
+        <form id="authForm">
+          <label for="username">Имя пользователя</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            minlength="3"
+            maxlength="24"
+            required
+            autocomplete="username"
+            placeholder="username"
+          />
+
+          <label for="password">Пароль</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            minlength="12"
+            maxlength="72"
+            required
+            autocomplete="current-password"
+            placeholder="Пароль"
+          />
+
+          <div class="actions">
+            <button type="submit" id="loginBtn">Войти</button>
+            <button type="button" id="registerBtn" class="secondary">
+              Регистрация
+            </button>
+          </div>
+
+          <p id="authStatus" class="status" role="status"></p>
+        </form>
+      </section>
+
+      <section id="chatView" class="chat hidden">
+        <header class="chat-header">
+          <div>
+            <h1>Web Chat</h1>
+            <p id="profile"></p>
+            <p id="connectionStatus" class="status">Подключение...</p>
+          </div>
+          <button id="logoutBtn" class="secondary" type="button">Выйти</button>
+        </header>
+
+        <div class="chat-layout">
+          <aside class="sidebar">
+            <button id="globalBtn" type="button" class="secondary">
+              Общий чат
+            </button>
+            <h2>Пользователи</h2>
+            <ul id="users"></ul>
+          </aside>
+
+          <section class="conversation">
+            <header class="conversation-header">
+              <button id="backBtn" type="button" class="secondary hidden">
+                Назад
+              </button>
+              <h2 id="chatTitle">Общий чат</h2>
+            </header>
+
+            <div id="messages" class="messages" aria-live="polite"></div>
+            <p id="typingStatus" class="typing"></p>
+
+            <form id="messageForm" class="message-form">
+              <input
+                id="messageInput"
+                type="text"
+                maxlength="2000"
+                placeholder="Введите сообщение..."
+                required
+                autocomplete="off"
+              />
+              <button type="submit">Отправить</button>
+            </form>
+
+            <p id="chatStatus" class="status" role="status"></p>
+          </section>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
